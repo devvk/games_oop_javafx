@@ -1,12 +1,12 @@
 package ru.job4j.chess.firuges.black;
 
 import org.junit.jupiter.api.Test;
+import ru.job4j.chess.ImpossibleMoveException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BishopBlackTest {
 
@@ -61,5 +61,13 @@ class BishopBlackTest {
         boolean result = bishopBlack.isDiagonal(startPosition, newPosition);
         assertFalse(result,
                 "BishopBlack should not consider the same source and destination as diagonal move");
+    }
+
+    @Test
+    public void whenNotDiagonalMoveThanThrowImpossibleMoveException() {
+        Cell startPosition = Cell.C1;
+        BishopBlack bishopBlack = new BishopBlack(startPosition);
+        Cell newPosition = Cell.A1;
+        assertThrows(ImpossibleMoveException.class, () -> bishopBlack.way(newPosition));
     }
 }
