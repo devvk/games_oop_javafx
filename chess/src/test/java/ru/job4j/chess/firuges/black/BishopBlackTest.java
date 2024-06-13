@@ -5,18 +5,20 @@ import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BishopBlackTest {
 
     @Test
-    void whenCreateBishopBlackThenPositionIsCorrect() {
+    public void whenCreateBishopBlackThenPositionIsCorrect() {
         Cell startPosition = Cell.A1;
         Figure bishopBlack = new BishopBlack(startPosition);
         assertThat(bishopBlack.position()).isEqualTo(startPosition);
     }
 
     @Test
-    void whenCopyBishopBlackThenPositionIsUpdated() {
+    public void whenCopyBishopBlackThenPositionIsUpdated() {
         Cell startPosition = Cell.A1;
         Figure bishopBlack = new BishopBlack(startPosition);
         Cell newPosition = Cell.H8;
@@ -25,11 +27,39 @@ class BishopBlackTest {
     }
 
     @Test
-    void whenBishopBlackMovesThanPathIsCorrect() {
+    public void whenBishopBlackMovesThanPathIsCorrect() {
         Cell startPosition = Cell.C1;
         Figure bishopBlack = new BishopBlack(startPosition);
         Cell[] expectedPath = {Cell.D2, Cell.E3, Cell.F4, Cell.G5};
         Cell[] actualPath = bishopBlack.way(Cell.G5);
         assertThat(actualPath).isEqualTo(expectedPath);
+    }
+
+    @Test
+    public void whenBishopBlackMovesDiagonally() {
+        Cell startPosition = Cell.C1;
+        BishopBlack bishopBlack = new BishopBlack(startPosition);
+        Cell newPosition = Cell.G5;
+        boolean result = bishopBlack.isDiagonal(startPosition, newPosition);
+        assertTrue(result, "BishopBlack should move diagonally from C1 to G5");
+    }
+
+    @Test
+    public void whenBishopBlackNotMoveDiagonally() {
+        Cell startPosition = Cell.C1;
+        BishopBlack bishopBlack = new BishopBlack(startPosition);
+        Cell newPosition = Cell.C2;
+        boolean result = bishopBlack.isDiagonal(startPosition, newPosition);
+        assertFalse(result, "BishopBlack should not move diagonally from C1 to C5");
+    }
+
+    @Test
+    public void whenBishopBlackSameSourceAndDestination() {
+        Cell startPosition = Cell.C1;
+        BishopBlack bishopBlack = new BishopBlack(startPosition);
+        Cell newPosition = Cell.C1;
+        boolean result = bishopBlack.isDiagonal(startPosition, newPosition);
+        assertFalse(result,
+                "BishopBlack should not consider the same source and destination as diagonal move");
     }
 }
