@@ -18,6 +18,7 @@ public class BishopBlack implements Figure {
 
     @Override
     public Cell[] way(Cell dest) {
+
         throw new ImpossibleMoveException(
                 String.format("Could not way by diagonal from %s to %s", position, dest)
         );
